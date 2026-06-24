@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Query History | QueryNest AI</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+    <header class="navbar">
+
+        <div class="logo">
+
+            <h2>QueryNest AI</h2>
+
+            <p>Query History</p>
+
+        </div>
+
+        <a href="/" class="history-btn">
+
+            Home
+
+        </a>
+
+    </header>
+
+    <main class="container">
+
+        <section class="output-section">
+
+            <h2 style="margin-bottom:25px;">Query History</h2>
+
+            <table style="width:100%; border-collapse:collapse;">
+
+                <thead>
+
+                    <tr>
+
+                        <th style="text-align:left;padding:12px;border-bottom:1px solid #ddd;">Date</th>
+
+                        <th style="text-align:left;padding:12px;border-bottom:1px solid #ddd;">Question</th>
+
+                        <th style="text-align:left;padding:12px;border-bottom:1px solid #ddd;">Generated SQL</th>
+
+                        <th style="text-align:left;padding:12px;border-bottom:1px solid #ddd;">Type</th>
+
+                        <th style="text-align:left;padding:12px;border-bottom:1px solid #ddd;">Difficulty</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for row in history %}
+
+                    <tr>
+
+                        <td style="padding:14px;">{{ row[5] }}</td>
+
+                        <td style="padding:14px;">{{ row[1] }}</td>
+
+                        <td style="padding:14px;">
+                            <pre style="white-space:pre-wrap;font-size:13px;">{{ row[2] }}</pre>
+                        </td>
+
+                        <td style="padding:14px;">{{ row[3] }}</td>
+
+                        <td style="padding:14px;">{{ row[4] }}</td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </section>
+
+    </main>
+
+</body>
+
+</html>
