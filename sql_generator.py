@@ -41,17 +41,11 @@ Database Schema:
 
 {DATABASE_SCHEMA}
 
-A user will ask a question.
-
 Return ONLY a valid JSON object.
 
-Do NOT wrap the JSON inside markdown.
+Do NOT use markdown.
 
-Do NOT use ```.
-
-Do NOT write json.
-
-Return ONLY this format:
+Return ONLY:
 
 {{
     "sql":"...",
@@ -62,33 +56,49 @@ Return ONLY this format:
 
 Rules:
 
-- sql must contain only the SQL query.
+- sql must contain only SQL.
 - type must be one of:
-  SELECT
-  INSERT
-  UPDATE
-  DELETE
-  CREATE TABLE
-  ALTER TABLE
-  DROP TABLE
-  JOIN
-  GROUP BY
+SELECT
+INSERT
+UPDATE
+DELETE
+CREATE TABLE
+ALTER TABLE
+DROP TABLE
+JOIN
+GROUP BY
 
-- difficulty must be one of:
-  Beginner
-  Intermediate
-  Advanced
+- difficulty:
+Beginner
+Intermediate
+Advanced
 
-- explanation must be one short beginner-friendly sentence.
+- explanation:
+One short beginner-friendly sentence.
 
 User Question:
 
 {user_question}
 """
 
-    response = client.models.generate_content(
-        model="gemini-2.5-flash",
-        contents=prompt
-    )
+    try:
 
-    return response.text.strip()
+        response = client.models.generate_content(
+            model="gemini-2.5-flash",
+            contents=prompt
+        )
+
+        if not response.text:
+
+            raise Exception("Empty response from Gemini.")
+
+        return response.text.strip()
+
+    except Exception as e:
+
+        return f"""{{
+            "sql":"Error",
+            "type":"-",
+            "difficulty":"-",
+            "explanation":"{str(e)}"
+        }}"""
